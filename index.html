@@ -1,0 +1,1000 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Fellipe ♥ Asuka</title>
+
+<style>
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+
+    body {
+        font-family: Arial, Helvetica, sans-serif;
+        min-height: 100vh;
+        overflow-x: hidden;
+
+        background:
+            radial-gradient(circle at top left, rgba(30,80,180,0.35), transparent 35%),
+            radial-gradient(circle at bottom right, rgba(220,30,60,0.35), transparent 35%),
+            linear-gradient(135deg, #07152e, #170912);
+
+        color: white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+    }
+
+    /* Background decoration */
+
+    .glow {
+        position: fixed;
+        width: 300px;
+        height: 300px;
+        border-radius: 50%;
+        filter: blur(80px);
+        opacity: 0.4;
+        z-index: -1;
+    }
+
+    .blue-glow {
+        background: #1677ff;
+        top: -100px;
+        left: -100px;
+    }
+
+    .red-glow {
+        background: #ff1744;
+        bottom: -100px;
+        right: -100px;
+    }
+
+    /* Main card */
+
+    .game-container {
+        width: 100%;
+        max-width: 650px;
+        min-height: 650px;
+
+        background: rgba(10, 15, 35, 0.82);
+        backdrop-filter: blur(18px);
+
+        border: 1px solid rgba(255,255,255,0.15);
+        border-radius: 30px;
+
+        padding: 35px;
+
+        box-shadow:
+            0 25px 80px rgba(0,0,0,0.5),
+            0 0 50px rgba(40,90,255,0.15);
+
+        text-align: center;
+
+        position: relative;
+        overflow: hidden;
+    }
+
+    /* Hogwarts-inspired divider */
+
+    .divider {
+        width: 120px;
+        height: 3px;
+        margin: 15px auto 25px;
+
+        background: linear-gradient(
+            90deg,
+            #e31b3f,
+            #ffffff,
+            #2376ff
+        );
+
+        border-radius: 10px;
+    }
+
+    h1 {
+        font-size: clamp(2.3rem, 8vw, 4rem);
+        margin-top: 10px;
+
+        background: linear-gradient(
+            90deg,
+            #ff405f,
+            #ffffff,
+            #4d91ff
+        );
+
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+
+        letter-spacing: -2px;
+    }
+
+    .subtitle {
+        color: #d7dbea;
+        margin-top: 8px;
+        font-size: 1rem;
+    }
+
+    /* Photo */
+
+    .photo-container {
+        width: 190px;
+        height: 190px;
+
+        margin: 25px auto;
+
+        border-radius: 50%;
+
+        padding: 5px;
+
+        background: linear-gradient(
+            135deg,
+            #e31b3f,
+            #ffffff,
+            #2376ff
+        );
+
+        box-shadow:
+            0 0 35px rgba(255,40,80,0.25),
+            0 0 35px rgba(40,100,255,0.25);
+    }
+
+    .photo-container img {
+        width: 100%;
+        height: 100%;
+
+        object-fit: cover;
+
+        border-radius: 50%;
+
+        background: #101522;
+    }
+
+    .upload-label {
+        display: inline-block;
+
+        padding: 10px 16px;
+
+        border-radius: 30px;
+
+        background: rgba(255,255,255,0.08);
+
+        border: 1px solid rgba(255,255,255,0.15);
+
+        color: #ddd;
+
+        cursor: pointer;
+
+        font-size: 0.85rem;
+
+        transition: 0.3s;
+    }
+
+    .upload-label:hover {
+        background: rgba(255,255,255,0.15);
+        transform: translateY(-2px);
+    }
+
+    #photoUpload {
+        display: none;
+    }
+
+    /* Game */
+
+    .screen {
+        display: none;
+        animation: fadeIn 0.5s ease;
+    }
+
+    .screen.active {
+        display: block;
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(15px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .question {
+        font-size: 1.4rem;
+        font-weight: bold;
+        margin: 25px 0;
+        line-height: 1.5;
+    }
+
+    .answers {
+        display: grid;
+        gap: 12px;
+    }
+
+    button {
+        border: none;
+
+        padding: 15px 20px;
+
+        border-radius: 15px;
+
+        font-size: 1rem;
+        font-weight: bold;
+
+        cursor: pointer;
+
+        color: white;
+
+        transition:
+            transform 0.2s,
+            box-shadow 0.2s,
+            background 0.2s;
+    }
+
+    button:hover {
+        transform: translateY(-3px);
+    }
+
+    .answer-btn {
+        background: linear-gradient(
+            90deg,
+            rgba(227,27,63,0.8),
+            rgba(35,118,255,0.8)
+        );
+
+        box-shadow: 0 8px 25px rgba(0,0,0,0.25);
+    }
+
+    .answer-btn:hover {
+        box-shadow:
+            0 10px 30px rgba(227,27,63,0.25),
+            0 10px 30px rgba(35,118,255,0.25);
+    }
+
+    .start-btn {
+        margin-top: 25px;
+
+        padding: 16px 35px;
+
+        background: linear-gradient(
+            90deg,
+            #e31b3f,
+            #2376ff
+        );
+
+        font-size: 1.1rem;
+
+        box-shadow:
+            0 10px 30px rgba(227,27,63,0.25),
+            0 10px 30px rgba(35,118,255,0.25);
+    }
+
+    /* Love meter */
+
+    .meter-title {
+        margin-top: 25px;
+        font-size: 0.9rem;
+        color: #c9ccda;
+    }
+
+    .meter {
+        width: 100%;
+        height: 18px;
+
+        background: rgba(255,255,255,0.1);
+
+        border-radius: 20px;
+
+        overflow: hidden;
+
+        margin: 10px 0 25px;
+    }
+
+    .meter-fill {
+        width: 0%;
+        height: 100%;
+
+        background: linear-gradient(
+            90deg,
+            #e31b3f,
+            #ff5d73,
+            #6ba0ff,
+            #2376ff
+        );
+
+        border-radius: 20px;
+
+        transition: width 0.6s ease;
+    }
+
+    .score {
+        color: #ddd;
+        font-size: 0.9rem;
+    }
+
+    /* Result */
+
+    .result-heart {
+        font-size: 6rem;
+
+        animation: heartbeat 1.2s infinite;
+    }
+
+    @keyframes heartbeat {
+        0%, 100% {
+            transform: scale(1);
+        }
+
+        50% {
+            transform: scale(1.18);
+        }
+    }
+
+    .result-title {
+        font-size: 2.2rem;
+        margin: 15px 0;
+    }
+
+    .result-text {
+        color: #d6d9e4;
+        line-height: 1.7;
+        margin: 15px 0;
+    }
+
+    /* Floating hearts */
+
+    .heart {
+        position: fixed;
+
+        bottom: -50px;
+
+        font-size: 22px;
+
+        animation: floatHeart linear forwards;
+
+        pointer-events: none;
+
+        z-index: 10;
+    }
+
+    @keyframes floatHeart {
+        from {
+            transform:
+                translateY(0)
+                rotate(0deg);
+            opacity: 0;
+        }
+
+        10% {
+            opacity: 1;
+        }
+
+        to {
+            transform:
+                translateY(-110vh)
+                rotate(360deg);
+            opacity: 0;
+        }
+    }
+
+    /* Mobile */
+
+    @media(max-width: 600px) {
+
+        body {
+            padding: 10px;
+        }
+
+        .game-container {
+            padding: 25px 20px;
+            border-radius: 24px;
+        }
+
+        .photo-container {
+            width: 150px;
+            height: 150px;
+        }
+
+        .question {
+            font-size: 1.2rem;
+        }
+    }
+
+</style>
+</head>
+
+<body>
+
+<div class="glow blue-glow"></div>
+<div class="glow red-glow"></div>
+
+<div class="game-container">
+
+    <!-- START SCREEN -->
+
+    <section id="startScreen" class="screen active">
+
+        <div class="photo-container">
+            <img
+                id="couplePhoto"
+                src="https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?auto=format&fit=crop&w=600&q=80"
+                alt="Fellipe and Asuka"
+            >
+        </div>
+
+        <label class="upload-label">
+            📷 Add Fellipe & Asuka's Photo
+            <input
+                type="file"
+                id="photoUpload"
+                accept="image/*"
+            >
+        </label>
+
+        <h1>Fellipe ♥ Asuka</h1>
+
+        <div class="divider"></div>
+
+        <p class="subtitle">
+            A little game about two people<br>
+            who might be falling for each other...
+        </p>
+
+        <button
+            class="start-btn"
+            onclick="startGame()"
+        >
+            💕 Start Our Story
+        </button>
+
+    </section>
+
+
+    <!-- GAME SCREEN -->
+
+    <section id="gameScreen" class="screen">
+
+        <h2 id="questionNumber">
+            Question 1
+        </h2>
+
+        <div class="meter-title">
+            ❤️ Relationship Level
+        </div>
+
+        <div class="meter">
+            <div
+                id="meterFill"
+                class="meter-fill"
+            ></div>
+        </div>
+
+        <div class="score">
+            Love points:
+            <span id="score">0</span>
+        </div>
+
+        <div
+            id="question"
+            class="question"
+        >
+            Question goes here
+        </div>
+
+        <div
+            id="answers"
+            class="answers"
+        >
+        </div>
+
+    </section>
+
+
+    <!-- RESULT SCREEN -->
+
+    <section id="resultScreen" class="screen">
+
+        <div class="result-heart">
+            ❤️
+        </div>
+
+        <h2
+            id="resultTitle"
+            class="result-title"
+        >
+            Fellipe ♥ Asuka
+        </h2>
+
+        <div class="divider"></div>
+
+        <p
+            id="resultText"
+            class="result-text"
+        >
+        </p>
+
+        <button
+            class="start-btn"
+            onclick="restartGame()"
+        >
+            💕 Play Again
+        </button>
+
+    </section>
+
+</div>
+
+
+<script>
+
+const questions = [
+
+    {
+        question:
+        "What happens when Fellipe looks at Asuka for a little too long?",
+
+        answers: [
+            {
+                text: "Nothing. Definitely nothing. 👀",
+                points: 5
+            },
+
+            {
+                text: "Asuka starts smiling. ❤️",
+                points: 15
+            },
+
+            {
+                text: "They both suddenly forget what they were saying. 😳",
+                points: 25
+            },
+
+            {
+                text: "The universe starts shipping them. ✨",
+                points: 30
+            }
+        ]
+    },
+
+    {
+        question:
+        "Who would probably notice first that something is happening between them?",
+
+        answers: [
+            {
+                text: "Fellipe",
+                points: 15
+            },
+
+            {
+                text: "Asuka",
+                points: 15
+            },
+
+            {
+                text: "Their friends",
+                points: 25
+            },
+
+            {
+                text: "Literally everyone except them",
+                points: 30
+            }
+        ]
+    },
+
+    {
+        question:
+        "Imagine they have a movie night. What happens afterward?",
+
+        answers: [
+            {
+                text: "They just go home.",
+                points: 5
+            },
+
+            {
+                text: "They talk about the movie.",
+                points: 10
+            },
+
+            {
+                text: "They accidentally have a deep conversation.",
+                points: 25
+            },
+
+            {
+                text: "They confess things they've been hiding.",
+                points: 30
+            }
+        ]
+    },
+
+    {
+        question:
+        "What is more dangerous than a horror movie?",
+
+        answers: [
+            {
+                text: "A jumpscare",
+                points: 5
+            },
+
+            {
+                text: "Being alone in the dark",
+                points: 10
+            },
+
+            {
+                text: "Eye contact",
+                points: 25
+            },
+
+            {
+                text: "Two people who secretly like each other",
+                points: 30
+            }
+        ]
+    },
+
+    {
+        question:
+        "If Fellipe and Asuka were characters in a romance story, what would their trope be?",
+
+        answers: [
+            {
+                text: "Friends to lovers",
+                points: 25
+            },
+
+            {
+                text: "Slow burn",
+                points: 30
+            },
+
+            {
+                text: "They knew all along",
+                points: 25
+            },
+
+            {
+                text: "Everyone saw it coming",
+                points: 30
+            }
+        ]
+    },
+
+    {
+        question:
+        "Final question... What happens when two people keep longing for each other?",
+
+        answers: [
+            {
+                text: "They ignore it.",
+                points: 5
+            },
+
+            {
+                text: "They pretend nothing is happening.",
+                points: 10
+            },
+
+            {
+                text: "Eventually, someone has to say it.",
+                points: 25
+            },
+
+            {
+                text: "Maybe they finally admit they love each other. ❤️",
+                points: 30
+            }
+        ]
+    }
+
+];
+
+
+let currentQuestion = 0;
+let score = 0;
+
+
+/* Start */
+
+function startGame() {
+
+    currentQuestion = 0;
+    score = 0;
+
+    document
+        .getElementById("startScreen")
+        .classList
+        .remove("active");
+
+    document
+        .getElementById("resultScreen")
+        .classList
+        .remove("active");
+
+    document
+        .getElementById("gameScreen")
+        .classList
+        .add("active");
+
+    showQuestion();
+
+    createHearts();
+}
+
+
+/* Show question */
+
+function showQuestion() {
+
+    const q = questions[currentQuestion];
+
+    document.getElementById("questionNumber")
+        .innerText =
+        `Question ${currentQuestion + 1} / ${questions.length}`;
+
+    document.getElementById("question")
+        .innerText =
+        q.question;
+
+    document.getElementById("score")
+        .innerText =
+        score;
+
+    const answers =
+        document.getElementById("answers");
+
+    answers.innerHTML = "";
+
+    q.answers.forEach(answer => {
+
+        const button =
+            document.createElement("button");
+
+        button.className =
+            "answer-btn";
+
+        button.innerText =
+            answer.text;
+
+        button.onclick = () => {
+            selectAnswer(answer.points);
+        };
+
+        answers.appendChild(button);
+
+    });
+
+    updateMeter();
+}
+
+
+/* Answer */
+
+function selectAnswer(points) {
+
+    score += points;
+
+    currentQuestion++;
+
+    createHearts();
+
+    if (currentQuestion >= questions.length) {
+
+        setTimeout(showResult, 400);
+
+    } else {
+
+        setTimeout(showQuestion, 350);
+
+    }
+
+}
+
+
+/* Love meter */
+
+function updateMeter() {
+
+    const maximum =
+        questions.length * 30;
+
+    const percentage =
+        Math.min((score / maximum) * 100, 100);
+
+    document.getElementById("meterFill")
+        .style.width =
+        percentage + "%";
+}
+
+
+/* Result */
+
+function showResult() {
+
+    document
+        .getElementById("gameScreen")
+        .classList
+        .remove("active");
+
+    document
+        .getElementById("resultScreen")
+        .classList
+        .add("active");
+
+    const title =
+        document.getElementById("resultTitle");
+
+    const text =
+        document.getElementById("resultText");
+
+    if (score >= 145) {
+
+        title.innerHTML =
+            "Fellipe ♥ Asuka";
+
+        text.innerHTML =
+            `
+            <strong>The chemistry is undeniable. ❤️</strong>
+            <br><br>
+            Maybe it started with a conversation.
+            Maybe it started with a movie.
+            Maybe it was the way they looked at each other.
+            <br><br>
+            But somewhere along the way,
+            two people started longing for each other.
+            <br><br>
+            <strong>
+            Some stories aren't planned.
+            They just happen.
+            </strong>
+            `;
+
+    } else if (score >= 100) {
+
+        title.innerHTML =
+            "Something Is Definitely Happening... 💙❤️";
+
+        text.innerHTML =
+            `
+            There is definitely a spark between Fellipe and Asuka.
+            <br><br>
+            Maybe neither of them wants to admit it yet...
+            but the story is already writing itself.
+            `;
+
+    } else {
+
+        title.innerHTML =
+            "The Story Has Just Started ✨";
+
+        text.innerHTML =
+            `
+            Not every love story begins with a confession.
+            <br><br>
+            Sometimes it begins with a smile,
+            a conversation,
+            a movie night,
+            or simply wanting to spend a little more time together.
+            <br><br>
+            <strong>
+            To be continued...
+            </strong>
+            `;
+
+    }
+
+    createHearts();
+
+}
+
+
+/* Restart */
+
+function restartGame() {
+
+    document
+        .getElementById("resultScreen")
+        .classList
+        .remove("active");
+
+    document
+        .getElementById("startScreen")
+        .classList
+        .add("active");
+
+}
+
+
+/* Photo upload */
+
+document
+    .getElementById("photoUpload")
+    .addEventListener("change", function(event) {
+
+        const file =
+            event.target.files[0];
+
+        if (!file) return;
+
+        const reader =
+            new FileReader();
+
+        reader.onload =
+            function(e) {
+
+                document
+                    .getElementById("couplePhoto")
+                    .src =
+                    e.target.result;
+
+            };
+
+        reader.readAsDataURL(file);
+
+    });
+
+
+/* Floating hearts */
+
+function createHearts() {
+
+    const symbols = [
+        "❤️",
+        "💙",
+        "💕",
+        "💗",
+        "✨",
+        "💫"
+    ];
+
+    for (let i = 0; i < 8; i++) {
+
+        const heart =
+            document.createElement("div");
+
+        heart.className =
+            "heart";
+
+        heart.innerText =
+            symbols[
+                Math.floor(
+                    Math.random() *
+                    symbols.length
+                )
+            ];
+
+        heart.style.left =
+            Math.random() * 100 + "vw";
+
+        heart.style.animationDuration =
+            (4 + Math.random() * 5) + "s";
+
+        heart.style.fontSize =
+            (15 + Math.random() * 25) + "px";
+
+        document.body.appendChild(heart);
+
+        setTimeout(() => {
+            heart.remove();
+        }, 9000);
+
+    }
+
+}
+
+</script>
+
+</body>
+</html>
